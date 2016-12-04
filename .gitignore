@@ -1,5 +1,6 @@
 build/
 old/
+coverage/
 
 # Node.js
 node_modules/

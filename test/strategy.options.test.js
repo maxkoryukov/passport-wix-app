@@ -1,0 +1,36 @@
+'use strict';
+
+const chai = require('chai');
+const Strategy = require('../lib/strategy');
+
+
+describe('Strategy', function() {
+
+	describe('handling a request without query-string, with message option to authenticate', function() {
+		var strategy = new Strategy(function() {
+			throw new Error('should not be called');
+		});
+
+		var info, status;
+
+		before(function(done) {
+			chai.passport.use(strategy)
+				.fail(function(i, s) {
+					info = i;
+					status = s;
+					done();
+				})
+				.req(function(req) {
+					req.query = {};
+				})
+				.authenticate({ secret: 'secret-key', badRequestMessage: 'Something is wrong with this request' });
+		});
+
+		it('should fail with info and status', function() {
+			expect(info).to.be.an.object;
+			expect(info.message).to.equal('Something is wrong with this request');
+			expect(status).to.equal(400);
+		});
+	});
+
+});
