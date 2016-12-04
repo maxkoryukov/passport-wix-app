@@ -9,6 +9,8 @@
 
 Wix Application authentication strategy for Passport.
 
+Currently, **NODE 6.x ONLY!!!**
+
 ## License
 
 Please, read the [`LICENSE`](LICENSE) file in the root of the repository (or downloaded package).
