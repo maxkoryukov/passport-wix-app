@@ -1,0 +1,51 @@
+{
+	"name": "passport-wix-app",
+	"version": "0.0.1",
+	"description": "Wix Application authentication strategy for Passport.",
+	"scripts": {
+		"test": "`npm bin`/mocha",
+		"lint": "`npm bin`/eslint ./",
+		"coverage": "`npm bin`/istanbul cover `npm bin`/_mocha"
+	},
+	"keywords": [
+		"passport",
+		"wix",
+		"wix-dev",
+		"api",
+		"auth",
+		"authn",
+		"authentication"
+	],
+	"author": {
+		"name": "Maksim Koryukov",
+		"email": "maxkoryukov@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/maxkoryukov/passport-wix-app.git"
+	},
+	"bugs": {
+		"url": "http://github.com/maxkoryukov/passport-wix-app/issues"
+	},
+	"license": "MIT",
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://www.opensource.org/licenses/MIT"
+		}
+	],
+	"main": "./lib",
+	"dependencies": {
+		"passport-strategy": "1.x.x"
+	},
+	"devDependencies": {
+		"chai": "^3.x.x",
+		"eslint": "^3.x.x",
+		"mocha": "^3.x",
+		"istanbul": "^0.4.x",
+		"chai-passport-strategy": "x"
+	},
+	"engines": {
+		"node": ">= 0.4.0"
+	}
+}
