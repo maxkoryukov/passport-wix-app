@@ -1,10 +1,10 @@
 # passport-wix-app
 
 [![Build Status](https://travis-ci.org/maxkoryukov/passport-wix-app.svg?branch=master)](https://travis-ci.org/maxkoryukov/passport-wix-app)
+[![npm version](https://img.shields.io/npm/v/passport-wix-app.svg)](https://www.npmjs.com/package/passport-wix-app)
 [![codecov](https://codecov.io/gh/maxkoryukov/passport-wix-app/branch/master/graph/badge.svg)](https://codecov.io/gh/maxkoryukov/passport-wix-app)
 [![bitHound Overall Score](https://www.bithound.io/github/maxkoryukov/passport-wix-app/badges/score.svg)](https://www.bithound.io/github/maxkoryukov/passport-wix-app)
 [![bitHound Dependencies](https://www.bithound.io/github/maxkoryukov/passport-wix-app/badges/dependencies.svg)](https://www.bithound.io/github/maxkoryukov/passport-wix-app/master/dependencies/npm)
-[![npm version](https://img.shields.io/npm/v/passport-wix-app.svg)](https://www.npmjs.com/package/passport-wix-app)
 [![npm downloads](https://img.shields.io/npm/dm/passport-wix-app.svg)](https://www.npmjs.com/package/passport-wix-app)
 [![Tips](http://img.shields.io/gittip/maxkoryukov.png)](https://www.gittip.com/maxkoryukov/)
 
@@ -28,18 +28,18 @@ The `wix-app` authentication strategy authenticates users using a `instance` par
 
 ```javascript
 passport.use(new WixAppStrategy({"secret": "WIX-APP-SECRET"},
-  function(instance, done) {
-    User.findOne({
-      application: instance.instanceId,
-      userId: instance.uid
-    }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
+	function(instance, done) {
+		User.findOne({
+			application: instance.instanceId,
+			userId: instance.uid
+		}, function (err, user) {
+			if (err) { return done(err); }
+			if (!user) { return done(null, false); }
 
-      // success:
-      return done(null, user);
-    });
-  }
+			// success:
+			return done(null, user);
+		});
+	}
 ));
 ```
 
@@ -61,23 +61,23 @@ For example, as route middleware in an [Express](http://expressjs.com/) applicat
 
 ```javascript
 app.post('/login',
-  passport.authenticate('wix-app', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+	passport.authenticate('wix-app', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.redirect('/');
+	});
 ```
 
 Or, with late-secret:
 
 ```javascript
 app.post('/login',
-  passport.authenticate('wix-app', {
-    secret: 'secret-key',
-    failureRedirect: '/login'
-  }),
-  function(req, res) {
-    res.redirect('/');
-  });
+	passport.authenticate('wix-app', {
+		secret: 'secret-key',
+		failureRedirect: '/login'
+	}),
+	function(req, res) {
+		res.redirect('/');
+	});
 ```
 
 ## Credits
