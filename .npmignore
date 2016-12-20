@@ -1,3 +1,7 @@
+.bithoundrc
+.eslintignore
+.eslintrc.js
+
 README.md
 old/
 build/

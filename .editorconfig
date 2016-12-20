@@ -14,11 +14,18 @@ indent_size = 4
 indent_style = tab
 indent_size = 4
 
+# Troubles with TABS. Use 2 spaces
 [*.yml]
 indent_style = space
 indent_size = 2
 
+[*.hbs]
+insert_final_newline = false
+
+[*.{diff,md}]
+trim_trailing_whitespace = false
+
 # They have troubles with TABS. Use 2 spaces
-[package.json]
+[{bower,package}.json]
 indent_style = space
 indent_size = 2
