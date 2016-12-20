@@ -7,8 +7,7 @@ const Strategy = require('../lib/strategy');
 describe('Strategy', function() {
 
 	describe('encountering an error during verification', function() {
-		let strategy = new Strategy({secret: 'secret-key'}, function(instanceObj, done) {
-			instanceObj = null;
+		let strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {
 			done(new Error('something went wrong'));
 		});
 

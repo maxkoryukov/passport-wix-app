@@ -7,7 +7,7 @@ const Strategy = require('../lib/strategy');
 describe('Strategy', function() {
 
 	describe('failing authentication', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {
 			return done(null, false);
 		});
 
@@ -32,7 +32,7 @@ describe('Strategy', function() {
 	});
 
 	describe('authentication with wrong digest', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {
 			return done(null, false);
 		});
 
@@ -58,7 +58,7 @@ describe('Strategy', function() {
 	});
 
 	describe('failing authentication with info', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {
 			return done(null, false, { message: 'authentication failed' });
 		});
 
