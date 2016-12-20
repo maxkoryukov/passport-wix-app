@@ -21,9 +21,8 @@ install:
   - npm install -g bithound
 
 script:
-# testing provided by coverage
-#  - npm test
   - npm run lint
+  - npm test
   - npm run coverage
   - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
 
