@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const Strategy = require('../lib/strategy');
+const Strategy = require('../src/strategy')
 
 
-describe('Strategy', function() {
+describe('strategy', function() {
 
 	let strategy = new Strategy(function(){ return true; });
 

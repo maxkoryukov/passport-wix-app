@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const chai = require('chai');
-const Strategy = require('../lib/strategy');
+const chai = require('chai')
+const Strategy = require('../src/strategy')
 
 
-describe('Strategy', function() {
+describe('strategy.options', function() {
 
 	describe('handling a request without query-string, with message option to authenticate', function() {
 		var strategy = new Strategy(function() {
@@ -29,7 +29,7 @@ describe('Strategy', function() {
 		it('should fail with info and status', function() {
 			expect(info).to.be.an.object;
 			expect(info.message).to.equal('Something is wrong with this request');
-			expect(status).to.equal(400);
+			expect(status).to.equal(401);
 		});
 	});
 

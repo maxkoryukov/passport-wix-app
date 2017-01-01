@@ -111,12 +111,12 @@ class Strategy extends passport.Strategy {
 
 		let instance = req && req.query && req.query.instance;
 		if (!instance) {
-			return this.fail({ message: options.badRequestMessage || 'Missing instance field' }, 400);
+			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401);
 		}
 
 		let instanceObj = this._parseInstance(secret, instance);
 		if (!instanceObj) {
-			return this.fail({ message: options.badRequestMessage || 'Instance is invalid'}, 400);
+			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403);
 		}
 
 		let self = this;

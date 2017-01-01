@@ -1,10 +1,10 @@
 'use strict';
 
-const chai = require('chai');
-const Strategy = require('../lib/strategy');
+const chai = require('chai')
+const Strategy = require('../src/strategy')
 
 
-describe('Strategy', function() {
+describe('strategy.error:', function() {
 
 	describe('encountering an error during verification', function() {
 		let strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {

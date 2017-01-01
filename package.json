@@ -35,7 +35,7 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "main": "./lib",
+  "main": "./index",
   "dependencies": {
     "passport-strategy": "1.x.x"
   },
@@ -43,7 +43,7 @@
     "chai": "^3.x.x",
     "chai-passport-strategy": "x",
     "eslint": "^3.x.x",
-    "eslint-config-volebo": "x",
+    "eslint-config-volebo": "^2.0.0",
     "istanbul": "^0.4.x",
     "mocha": "^3.x"
   },

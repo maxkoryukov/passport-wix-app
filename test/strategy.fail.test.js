@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const chai = require('chai');
-const Strategy = require('../lib/strategy');
+const chai = require('chai')
+const Strategy = require('../src/strategy')
 
 
-describe('Strategy', function() {
+describe('strategy.fail:', function() {
 
 	describe('failing authentication', function() {
 		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_instanceObj, done) {
@@ -53,7 +53,7 @@ describe('Strategy', function() {
 
 		it('should fail', function() {
 			expect(info).to.be.an('object');
-			expect(info.message).to.equal('Instance is invalid');
+			expect(info.message).to.equal('Invalid WIX-instance');
 		});
 	});
 
@@ -83,4 +83,54 @@ describe('Strategy', function() {
 		});
 	});
 
+	describe('handling a request without a query-string', function() {
+		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
+			throw new Error('should not be called');
+		});
+
+		var info, status;
+
+		before(function(done) {
+			chai.passport.use(strategy)
+				.fail(function(i, s) {
+					info = i;
+					status = s;
+					done();
+				})
+				.authenticate();
+		});
+
+		it('should fail with info and status', function() {
+			expect(info).to.be.an.object;
+			expect(info.message).to.equal('Missing WIX-instance query-parameter');
+			expect(status).to.equal(401);
+		});
+	});
+
+	describe('handling a request with a query-string, but no "instance"', function() {
+		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
+			throw new Error('should not be called');
+		});
+
+		var info, status;
+
+		before(function(done) {
+			chai.passport.use(strategy)
+				.fail(function(i, s) {
+					info = i;
+					status = s;
+					done();
+				})
+				.req(function(req) {
+					req.query = {};
+				})
+				.authenticate();
+		});
+
+		it('should fail with info and status', function() {
+			expect(info).to.be.an.object;
+			expect(status).to.equal(401);
+			expect(info.message).to.equal('Missing WIX-instance query-parameter');
+		});
+	});
 });

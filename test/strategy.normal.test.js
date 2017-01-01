@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const chai = require('chai');
-const Strategy = require('../lib/strategy');
+const chai = require('chai')
+const Strategy = require('../src/strategy')
 
 
-describe('Strategy', function() {
+describe('strategy.normal:', function() {
 
 	describe('handling a request with valid credentials in query', function() {
 		let user;
@@ -67,57 +67,6 @@ describe('Strategy', function() {
 			expect(ext.signDate).to.be.a.date;
 			expect(ext.port).to.equal(35734);
 			expect(ext.ip).to.equal('91.199.119.13');
-		});
-	});
-
-	describe('handling a request without a query-string', function() {
-		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
-			throw new Error('should not be called');
-		});
-
-		var info, status;
-
-		before(function(done) {
-			chai.passport.use(strategy)
-				.fail(function(i, s) {
-					info = i;
-					status = s;
-					done();
-				})
-				.authenticate();
-		});
-
-		it('should fail with info and status', function() {
-			expect(info).to.be.an.object;
-			expect(info.message).to.equal('Missing instance field');
-			expect(status).to.equal(400);
-		});
-	});
-
-	describe('handling a request with a query-string, but no "instance"', function() {
-		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
-			throw new Error('should not be called');
-		});
-
-		var info, status;
-
-		before(function(done) {
-			chai.passport.use(strategy)
-				.fail(function(i, s) {
-					info = i;
-					status = s;
-					done();
-				})
-				.req(function(req) {
-					req.query = {};
-				})
-				.authenticate();
-		});
-
-		it('should fail with info and status', function() {
-			expect(info).to.be.an.object;
-			expect(info.message).to.equal('Missing instance field');
-			expect(status).to.equal(400);
 		});
 	});
 });
