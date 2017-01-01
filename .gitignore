@@ -1,7 +1,36 @@
-build/
-old/
-coverage/
+# =========================================
+# volebo javascript ignore rules
+#
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+# =========================================
 
-# Node.js
-node_modules/
-npm-debug.log
+# place per-project settings here
+
+# =========================================
+# common part
+# =========================================
+# PRIVATE files
+.env
+.npmrc
+.node_repl_history
+
+# dependencies
+.npm
+/node_modules
+/bower_components
+
+# compiled output
+/dist
+/tmp
+/build
+
+# Coverage directory used by tools like istanbul
+/coverage
+/lib-cov
+
+npm-debug.log*
+/logs
+*.log
+testem.log
+
+# =========================================
