@@ -5,16 +5,22 @@ const Strategy = require('../src/strategy')
 
 describe('strategy', function() {
 
-	let strategy = new Strategy(function(){ return true; });
 
 	it('should be named wix-app', function() {
-		expect(strategy.name).to.equal('wix-app');
-	});
+		const strategy = new Strategy('123', () => true)
+		expect(strategy.name).to.equal('wix-app')
+	})
 
 	it('should throw if constructed without a verify callback', function() {
 		expect(function() {
-			strategy = new Strategy();
-		}).to.throw(TypeError, 'WixAppStrategy requires a verify callback');
-	});
+			const strategy = new Strategy('secret')       // eslint-disable-line no-unused-vars
+		}).to.throw(TypeError, 'WixAppStrategy requires a verify callback')
+	})
+
+	it('should throw if constructed without a secret', function() {
+		expect(function() {
+			const strategy = new Strategy(null, ()=>true)  // eslint-disable-line no-unused-vars
+		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
+	})
 
 });

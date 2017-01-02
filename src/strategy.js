@@ -3,35 +3,30 @@
 /**
  * Module dependencies.
  */
-const passport = require('passport-strategy');
-const crypto = require('crypto');
+const passport = require('passport-strategy')
+const crypto = require('crypto')
+const debug = require('debug')('passport-wix-app')
 
 class Strategy extends passport.Strategy {
 	/**
 	 * `Strategy` constructor.
 	 *
-	 * The local authentication strategy authenticates requests based on the
-	 * credentials submitted through an HTML-based login form.
+	 * The authentication strategy authenticates requests based on the
+	 * `instance` query param, sent by WIX Applications
 	 *
-	 * Applications must supply a `verify` callback which accepts `username` and
-	 * `password` credentials, and then calls the `done` callback supplying a
-	 * `user`, which should be set to `false` if the credentials are not valid.
-	 * If an exception occurred, `err` should be set.
-	 *
-	 * Optionally, `options` can be used to change the fields in which the
-	 * credentials are found.
+	 * https://dev.wix.com/docs/infrastructure/app-instance-id/
+	 * https://dev.wix.com/docs/infrastructure/app-instance/#instance-properties
 	 *
 	 * Options:
-	 *   - `usernameField`  field name where the username is found, defaults to _username_
-	 *   - `passwordField`  field name where the password is found, defaults to _password_
-	 *   - `passReqToCallback`  when `true`, `req` is the first argument to the verify callback (default: `false`)
+	 *   - `secret`             xxxxxxxxxx
+	 *   - `signDateThreshold`  xxxxxxxx
 	 *
 	 * Examples:
 	 *
-	 *     passport.use(new LocalStrategy(
-	 *       function(username, password, done) {
-	 *         User.findOne({ username: username, password: password }, function (err, user) {
-	 *           done(err, user);
+	 *     passport.use(new LocalStrategy({secret: 'your-wix-secret'},
+	 *       function verifyCallback(instance, done) {
+	 *         WixApp.findOne({ appId: instance.instanceId }, function (err, wixapp) {
+	 *           done(err, wixapp);
 	 *         });
 	 *       }
 	 *     ));
@@ -41,19 +36,37 @@ class Strategy extends passport.Strategy {
 	 * @api public
 	 */
 
-	constructor(options, verify) {
-		super();
+	constructor(secret, options, verify) {
+		super()
 
 		if (typeof options === 'function') {
-			verify = options;
-			options = {};
+			verify = options
+			options = {}
 		}
-		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback'); }
 
-		this._secret = options.secret;
+		this._secret = secret
+		if (!this._secret) { throw new TypeError('WixAppStrategy requires a secret') }
+		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback') }
 
-		this.name = 'wix-app';
-		this._verify = verify;
+		this._isSignDateValid = this._getValidatorForSignDate(options.signDateThreshold)
+
+		this.name = 'wix-app'
+		this._verify = verify
+	}
+
+	_getValidatorForSignDate(value) {
+		if (false === value) {
+			return ()=>true
+		}
+
+		if (typeof value === 'function') {
+			return value
+		}
+
+		const dateDiffMax = typeof value === 'number' ? value : 10000
+		return (signDate) => {
+			return Math.abs(signDate.valueOf() - new Date().valueOf()) > dateDiffMax
+		}
 	}
 
 	_urlBase64decode(str, encoding) {
@@ -79,18 +92,20 @@ class Strategy extends passport.Strategy {
 
 		let instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'));
 
-		instanceObj.aid = instanceObj.aid || null;
+		instanceObj.aid = instanceObj.aid || null
+		instanceObj.uid = instanceObj.uid || null
+		instanceObj.permissions = instanceObj.permissions || null
 
 		// Extensions:
-		let [ip, port] = instanceObj.ipAndPort.split('/');
-		port = parseInt(port);
-		let signDate = new Date(instanceObj.signDate);
+		let [ip, port] = instanceObj.ipAndPort.split('/')
+		port = parseInt(port)
+		let signDate = new Date(instanceObj.signDate)
 
 		instanceObj.ext = {
 			port,
 			ip,
 			signDate,
-		};
+		}
 
 		return instanceObj;
 	}
@@ -104,18 +119,18 @@ class Strategy extends passport.Strategy {
 	authenticate(req, options) {
 		options = options || {};
 
-		let secret = options.secret || this._secret;
-		if (!secret) {
-			return this.error(new TypeError('secret is not set'));
-		}
-
 		let instance = req && req.query && req.query.instance;
 		if (!instance) {
 			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401);
 		}
 
-		let instanceObj = this._parseInstance(secret, instance);
+		let instanceObj = this._parseInstance(this._secret, instance);
 		if (!instanceObj) {
+			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403);
+		}
+
+		if (!this._isSignDateValid(instanceObj.ext.signDate)) {
+			debug('signDate of the instance expired')
 			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403);
 		}
 
