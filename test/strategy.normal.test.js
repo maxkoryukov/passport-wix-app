@@ -12,7 +12,7 @@ describe('strategy.normal:', function() {
 		let ins = null;
 		let ext = null;
 
-		let strategy = new Strategy('secret-key', function(instanceObj, done) {
+		let strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, instanceObj, done) {
 
 			ins = instanceObj;
 			ext = instanceObj.ext;

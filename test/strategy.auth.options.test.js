@@ -4,14 +4,14 @@ const chai = require('chai')
 const Strategy = require('../src/strategy')
 
 
-describe('strategy.options', function() {
+describe('strategy.auth.options', function() {
 
 	describe('handling a request without query-string, with message option to authenticate', function() {
-		var strategy = new Strategy('secret', function() {
+		const strategy = new Strategy({secret: 'secret'}, function() {
 			throw new Error('should not be called');
 		});
 
-		var info, status;
+		let info, status;
 
 		before(function(done) {
 			chai.passport.use(strategy)

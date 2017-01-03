@@ -7,7 +7,7 @@ const Strategy = require('../src/strategy')
 describe('strategy.fail:', function() {
 
 	describe('failing authentication', function() {
-		var strategy = new Strategy('secret-key', function(_unused_instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
 			return done(null, false);
 		});
 
@@ -32,7 +32,7 @@ describe('strategy.fail:', function() {
 	});
 
 	describe('authentication with wrong digest', function() {
-		var strategy = new Strategy('secret-key', function(_unused_instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
 			return done(null, false);
 		});
 
@@ -58,7 +58,7 @@ describe('strategy.fail:', function() {
 	});
 
 	describe('failing authentication with info', function() {
-		var strategy = new Strategy('secret-key', function(_unused_instanceObj, done) {
+		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
 			return done(null, false, { message: 'authentication failed' });
 		});
 
@@ -84,7 +84,7 @@ describe('strategy.fail:', function() {
 	});
 
 	describe('handling a request without a query-string', function() {
-		var strategy = new Strategy('secret', function(/*instanceObj, done*/) {
+		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
 			throw new Error('should not be called');
 		});
 
@@ -108,7 +108,7 @@ describe('strategy.fail:', function() {
 	});
 
 	describe('handling a request with a query-string, but no "instance"', function() {
-		var strategy = new Strategy('secret', function(/*instanceObj, done*/) {
+		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
 			throw new Error('should not be called');
 		});
 

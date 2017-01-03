@@ -7,7 +7,7 @@ const Strategy = require('../src/strategy')
 describe('strategy.error:', function() {
 
 	describe('encountering an error during verification', function() {
-		let strategy = new Strategy('secret-key', function(_unused_instanceObj, done) {
+		let strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
 			done(new Error('something went wrong'));
 		});
 
@@ -33,7 +33,7 @@ describe('strategy.error:', function() {
 	});
 
 	describe('encountering an exception during verification', function() {
-		var strategy = new Strategy('secret-key', function() {
+		var strategy = new Strategy({secret: 'secret-key'}, function() {
 			throw new Error('something went horribly wrong');
 		});
 

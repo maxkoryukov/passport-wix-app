@@ -7,20 +7,36 @@ describe('strategy', function() {
 
 
 	it('should be named wix-app', function() {
-		const strategy = new Strategy('123', () => true)
+		const strategy = new Strategy({secret: '123'}, () => true)
 		expect(strategy.name).to.equal('wix-app')
 	})
 
 	it('should throw if constructed without a verify callback', function() {
 		expect(function() {
-			const strategy = new Strategy('secret')       // eslint-disable-line no-unused-vars
+			const strategy = new Strategy({secret: 'secret'})       // eslint-disable-line no-unused-vars
 		}).to.throw(TypeError, 'WixAppStrategy requires a verify callback')
 	})
 
 	it('should throw if constructed without a secret', function() {
 		expect(function() {
-			const strategy = new Strategy(null, ()=>true)  // eslint-disable-line no-unused-vars
+			const strategy = new Strategy({}, ()=>true)  // eslint-disable-line no-unused-vars
 		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
 	})
 
-});
+	describe('call constructor with a wrong-typed secret', function() {
+		const testCases = [
+			{msg:'object: should throw', testSecret: {object: 'key'}},
+			{msg:'number: should throw',testSecret: 123821},
+			{msg:'null: should throw',testSecret: null},
+			{msg:'undefined: should throw',testSecret: undefined},
+		]
+
+		testCases.forEach(({msg, testSecret}) => {
+			it(msg, () => {
+				expect(function() {
+					const strategy = new Strategy({ secret: testSecret}, ()=>true)  // eslint-disable-line no-unused-vars
+				}).to.throw(TypeError, 'WixAppStrategy requires a secret. It MUST be a string')
+			})
+		})
+	})
+})

@@ -36,7 +36,7 @@ class Strategy extends passport.Strategy {
 	 * @api public
 	 */
 
-	constructor(secret, options, verify) {
+	constructor(options, verify) {
 		super()
 
 		if (typeof options === 'function') {
@@ -44,8 +44,9 @@ class Strategy extends passport.Strategy {
 			options = {}
 		}
 
-		this._secret = secret
-		if (!this._secret) { throw new TypeError('WixAppStrategy requires a secret') }
+		if (typeof options.secret !== 'string') { throw new TypeError('WixAppStrategy requires a secret. It MUST be a string') }
+
+		this._secret = options.secret
 		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback') }
 
 		this._isSignDateValid = this._getValidatorForSignDate(options.signDateThreshold)
@@ -81,11 +82,12 @@ class Strategy extends passport.Strategy {
 		// split the instance into digest and data
 		let [digest, data] = instance.split('.');
 
-		digest = this._urlBase64decode(digest, 'base64');
-
 		// sign the data using hmac-sha1-256
 		let hmac = crypto.createHmac('sha256', secret);
+
 		let myDigest = hmac.update(data).digest('base64');
+		digest = this._urlBase64decode(digest, 'base64');
+
 		if (myDigest !== digest) {
 			return null;
 		}
@@ -144,7 +146,7 @@ class Strategy extends passport.Strategy {
 		}
 
 		try {
-			this._verify(instanceObj, verifyDone);
+			this._verify(req, instanceObj, verifyDone);
 		} catch (ex) {
 			return this.error(ex);
 		}
