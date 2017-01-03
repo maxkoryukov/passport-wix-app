@@ -66,7 +66,7 @@ class Strategy extends passport.Strategy {
 
 		const dateDiffMax = typeof value === 'number' ? value : 10000
 		return (signDate) => {
-			return Math.abs(signDate.valueOf() - new Date().valueOf()) > dateDiffMax
+			return Math.abs(signDate.valueOf() - new Date().valueOf()) < dateDiffMax
 		}
 	}
 
