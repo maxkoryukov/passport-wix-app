@@ -24,8 +24,8 @@ script:
   - npm run lint
   - npm test
   - npm run coverage
+  - codecov
   - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
 
-after_success:
-  - codecov
+# after_success:
 ...
