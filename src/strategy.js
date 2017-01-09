@@ -86,7 +86,9 @@ class Strategy extends passport.Strategy {
 
 	_parseInstance(secret, instance) {
 		// split the instance into digest and data
-		let [digest, data] = instance.split('.')
+		const splittedInstance = instance.split('.')
+		let digest = splittedInstance[0]
+		const data = splittedInstance[1]
 
 		// sign the data using hmac-sha1-256
 		let hmac = crypto.createHmac('sha256', secret)
