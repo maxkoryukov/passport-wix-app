@@ -37,7 +37,10 @@ describe('strategy', function() {
 			{msg:'undefined: should throw',testSecret: undefined},
 		]
 
-		testCases.forEach(({msg, testSecret}) => {
+		testCases.forEach((testCase) => {
+			const msg = testCase.msg
+			const testSecret = testCase.testSecret
+
 			it(msg, () => {
 				expect(function() {
 					const strategy = new Strategy({ secret: testSecret}, ()=>true)  // eslint-disable-line no-unused-vars
