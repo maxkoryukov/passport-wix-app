@@ -143,7 +143,7 @@ class Strategy extends passport.Strategy {
 
 		if (!this._isSignDateValid(instanceObj.ext.signDate)) {
 			debug('signDate of the instance expired')
-			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403)
+			return this.fail({ message: options.badRequestMessage || 'Expired WIX-instance'}, 403)
 		}
 
 		let self = this;
