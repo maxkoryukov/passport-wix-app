@@ -37,6 +37,7 @@
   ],
   "main": "./index",
   "dependencies": {
+    "debug": "^2.6.0",
     "passport-strategy": "1.x.x"
   },
   "devDependencies": {
