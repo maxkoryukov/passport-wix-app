@@ -23,6 +23,12 @@ describe('strategy', function() {
 		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
 	})
 
+	it('should throw if constructed without a secret (options are not passed at all)', function() {
+		expect(function() {
+			const strategy = new Strategy(()=>true)  // eslint-disable-line no-unused-vars
+		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
+	})
+
 	describe('call constructor with a wrong-typed secret', function() {
 		const testCases = [
 			{msg:'object: should throw', testSecret: {object: 'key'}},

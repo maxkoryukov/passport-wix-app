@@ -49,6 +49,7 @@ class Strategy extends passport.Strategy {
 		this._secret = options.secret
 		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback') }
 
+		this._signDateDiffMax = 10000;
 		this._isSignDateValid = this._getValidatorForSignDate(options.signDateThreshold)
 
 		this.name = 'wix-app'
@@ -64,10 +65,15 @@ class Strategy extends passport.Strategy {
 			return value
 		}
 
-		const dateDiffMax = typeof value === 'number' ? value : 10000
-		return (signDate) => {
-			return Math.abs(signDate.valueOf() - new Date().valueOf()) < dateDiffMax
+		if (typeof value === 'number') {
+			this._signDateDiffMax = value
 		}
+
+		return this._defaultValidatorSignDate
+	}
+
+	_defaultValidatorSignDate(signDate) {
+		return Math.abs(signDate.valueOf() - new Date().valueOf()) < this._signDateDiffMax
 	}
 
 	_urlBase64decode(str, encoding) {
@@ -141,12 +147,18 @@ class Strategy extends passport.Strategy {
 			if (err) {
 				return self.error(err)
 			}
-			if (!user) { return self.fail(info); }
+			if (!user) {
+				return self.fail(info);
+			}
 			self.success(user, info);
 		}
 
+		return this._tryAuthenticate(options, req, instanceObj, verifyDone)
+	}
+
+	_tryAuthenticate(options, req, instanceObj, callback) {
 		try {
-			this._verify(req, instanceObj, verifyDone);
+			return this._verify(req, instanceObj, callback);
 		} catch (ex) {
 			return this.error(ex);
 		}
