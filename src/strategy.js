@@ -86,9 +86,9 @@ class Strategy extends passport.Strategy {
 
 	_parseInstance(secret, instance) {
 		// split the instance into digest and data
-		const splittedInstance = instance.split('.')
-		let digest = splittedInstance[0]
-		const data = splittedInstance[1]
+		let _splitVar = instance.split('.')
+		let digest = _splitVar[0]
+		const data = _splitVar[1]
 
 		// sign the data using hmac-sha1-256
 		let hmac = crypto.createHmac('sha256', secret)
@@ -100,16 +100,17 @@ class Strategy extends passport.Strategy {
 			return null;
 		}
 
-		let instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'))
+		const instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'))
 
 		instanceObj.aid = instanceObj.aid || null
 		instanceObj.uid = instanceObj.uid || null
 		instanceObj.permissions = instanceObj.permissions || null
 
 		// Extensions:
-		let [ip, port] = instanceObj.ipAndPort.split('/')
-		port = parseInt(port)
-		let signDate = new Date(instanceObj.signDate)
+		_splitVar = instanceObj.ipAndPort.split('/')
+		const ip = _splitVar[0]
+		const port = parseInt(_splitVar[1])
+		const signDate = new Date(instanceObj.signDate)
 
 		instanceObj.ext = {
 			port,
