@@ -12,8 +12,6 @@ Wix Application authentication strategy for Passport.
 
 This module is useful for Wix Application developers. At least, it will parse `instance` parameter, used by Wix Applications ([see documentation](http://dev.wix.com/docs/infrastructure/app-instance/#))
 
-Currently, **NODE 6.x ONLY!!!**
-
 ## Install
 
 ```bash
