@@ -12,16 +12,19 @@ describe('strategy.normal:', function() {
 		let ins = null;
 		let ext = null;
 
-		let strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, instanceObj, done) {
+		const strategy = new Strategy({
+			secret: 'secret-key',
+			signDateThreshold: () => true
+		}, function verificationCallback(_unused_req, instanceObj, done) {
 
-			ins = instanceObj;
-			ext = instanceObj.ext;
+			ins = instanceObj
+			ext = instanceObj.ext
 
 			if (instanceObj.uid.toLowerCase() === 'da32cbf7-7f8b-4f9b-a97e-e67f3072ce92') {
-				return done(null, { id: '1234' }, { scope: 'read' });
+				return done(null, { id: '1234' }, { scope: 'read' })
 			}
-			return done(null, false);
-		});
+			return done(null, false)
+		})
 
 
 		before(function(done) {

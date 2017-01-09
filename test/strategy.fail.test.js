@@ -7,11 +7,14 @@ const Strategy = require('../src/strategy')
 describe('strategy.fail:', function() {
 
 	describe('failing authentication', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
-			return done(null, false);
-		});
+		const strategy = new Strategy({
+			secret: 'secret-key',
+			signDateThreshold: ()=> true
+		}, function verificationCallback(_unused_req, _unused_instanceObj, done) {
+			return done(null, false)
+		})
 
-		var info;
+		let info
 
 		before(function(done) {
 			chai.passport.use(strategy)
@@ -32,11 +35,11 @@ describe('strategy.fail:', function() {
 	});
 
 	describe('authentication with wrong digest', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
-			return done(null, false);
-		});
+		const strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
+			return done(null, false)
+		})
 
-		var info;
+		let info
 
 		before(function(done) {
 			chai.passport.use(strategy)
@@ -52,17 +55,20 @@ describe('strategy.fail:', function() {
 		});
 
 		it('should fail', function() {
-			expect(info).to.be.an('object');
-			expect(info.message).to.equal('Invalid WIX-instance');
+			expect(info).to.be.an('object')
+			expect(info.message).to.equal('Invalid WIX-instance')
 		});
 	});
 
 	describe('failing authentication with info', function() {
-		var strategy = new Strategy({secret: 'secret-key'}, function(_unused_req, _unused_instanceObj, done) {
-			return done(null, false, { message: 'authentication failed' });
-		});
+		const strategy = new Strategy({
+			secret: 'secret-key',
+			signDateThreshold: ()=> true
+		}, function verificationCallback(_unused_req, _unused_instanceObj, done) {
+			return done(null, false, { message: 'authentication failed' })
+		})
 
-		var info;
+		let info
 
 		before(function(done) {
 			chai.passport.use(strategy)
@@ -78,17 +84,17 @@ describe('strategy.fail:', function() {
 		});
 
 		it('should fail', function() {
-			expect(info).to.be.an('object');
-			expect(info.message).to.equal('authentication failed');
-		});
-	});
+			expect(info).to.be.an('object')
+			expect(info.message).to.equal('authentication failed')
+		})
+	})
 
 	describe('handling a request without a query-string', function() {
-		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
-			throw new Error('should not be called');
-		});
+		const strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
+			throw new Error('should not be called')
+		})
 
-		var info, status;
+		let info, status
 
 		before(function(done) {
 			chai.passport.use(strategy)
@@ -97,40 +103,40 @@ describe('strategy.fail:', function() {
 					status = s;
 					done();
 				})
-				.authenticate();
-		});
+				.authenticate()
+		})
 
 		it('should fail with info and status', function() {
-			expect(info).to.be.an.object;
-			expect(info.message).to.equal('Missing WIX-instance query-parameter');
-			expect(status).to.equal(401);
-		});
-	});
+			expect(info).to.be.an.object
+			expect(info.message).to.equal('Missing WIX-instance query-parameter')
+			expect(status).to.equal(401)
+		})
+	})
 
 	describe('handling a request with a query-string, but no "instance"', function() {
-		var strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
-			throw new Error('should not be called');
-		});
+		const strategy = new Strategy({secret: 'secret'}, function(/*instanceObj, done*/) {
+			throw new Error('should not be called')
+		})
 
-		var info, status;
+		let info, status
 
 		before(function(done) {
 			chai.passport.use(strategy)
 				.fail(function(i, s) {
-					info = i;
-					status = s;
-					done();
+					info = i
+					status = s
+					done()
 				})
 				.req(function(req) {
-					req.query = {};
+					req.query = {}
 				})
-				.authenticate();
-		});
+				.authenticate()
+		})
 
 		it('should fail with info and status', function() {
-			expect(info).to.be.an.object;
-			expect(status).to.equal(401);
-			expect(info.message).to.equal('Missing WIX-instance query-parameter');
-		});
-	});
-});
+			expect(info).to.be.an.object
+			expect(status).to.equal(401)
+			expect(info.message).to.equal('Missing WIX-instance query-parameter')
+		})
+	})
+})

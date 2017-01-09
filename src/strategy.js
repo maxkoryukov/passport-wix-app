@@ -86,19 +86,19 @@ class Strategy extends passport.Strategy {
 
 	_parseInstance(secret, instance) {
 		// split the instance into digest and data
-		let [digest, data] = instance.split('.');
+		let [digest, data] = instance.split('.')
 
 		// sign the data using hmac-sha1-256
-		let hmac = crypto.createHmac('sha256', secret);
+		let hmac = crypto.createHmac('sha256', secret)
 
-		let myDigest = hmac.update(data).digest('base64');
-		digest = this._urlBase64decode(digest, 'base64');
+		let myDigest = hmac.update(data).digest('base64')
+		digest = this._urlBase64decode(digest, 'base64')
 
 		if (myDigest !== digest) {
 			return null;
 		}
 
-		let instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'));
+		let instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'))
 
 		instanceObj.aid = instanceObj.aid || null
 		instanceObj.uid = instanceObj.uid || null
@@ -125,21 +125,23 @@ class Strategy extends passport.Strategy {
 	 * @api protected
 	 */
 	authenticate(req, options) {
-		options = options || {};
+		options = options || {}
 
-		let instance = req && req.query && req.query.instance;
+		options.passReqToCallback = true
+
+		let instance = req && req.query && req.query.instance
 		if (!instance) {
-			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401);
+			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401)
 		}
 
 		let instanceObj = this._parseInstance(this._secret, instance);
 		if (!instanceObj) {
-			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403);
+			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403)
 		}
 
 		if (!this._isSignDateValid(instanceObj.ext.signDate)) {
 			debug('signDate of the instance expired')
-			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403);
+			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403)
 		}
 
 		let self = this;
@@ -158,7 +160,11 @@ class Strategy extends passport.Strategy {
 
 	_tryAuthenticate(options, req, instanceObj, callback) {
 		try {
-			return this._verify(req, instanceObj, callback);
+			if (options.passReqToCallback) {
+				return this._verify(req, instanceObj, callback)
+			} else {
+				return this._verify(instanceObj, callback)
+			}
 		} catch (ex) {
 			return this.error(ex);
 		}
