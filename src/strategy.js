@@ -162,7 +162,6 @@ class Strategy extends passport.Strategy {
 
 	_tryAuthenticate(req, instanceObj, callback) {
 		try {
-console.log(this._passReqToCallback);
 			if (this._passReqToCallback) {
 				return this._verify(req, instanceObj, callback)
 			} else {
