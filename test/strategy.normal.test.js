@@ -14,6 +14,7 @@ describe('strategy.normal:', function() {
 
 		const strategy = new Strategy({
 			secret: 'secret-key',
+			passReqToCallback: true,
 			signDateThreshold: () => true
 		}, function verificationCallback(_unused_req, instanceObj, done) {
 

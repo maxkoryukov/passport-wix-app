@@ -9,7 +9,7 @@ describe('strategy.error:', function() {
 	describe('encountering an error during verification', function() {
 		let strategy = new Strategy({
 			secret: 'secret-key',
-			signDateThreshold: false
+			passReqToCallback: true
 		},
 			function verificationCallback(_unused_req, _unused_instanceObj, done) {
 				done(new Error('something went wrong'));
