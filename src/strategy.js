@@ -7,7 +7,6 @@
  */
 const passport = require('passport-strategy')
 const crypto = require('crypto')
-const debug = require('debug')('passport-wix-app')
 
 class Strategy extends passport.Strategy {
 	/**
@@ -56,10 +55,11 @@ class Strategy extends passport.Strategy {
 
 		this.name = 'wix-app'
 		this._verify = verify
+		this._passReqToCallback = !!options.passReqToCallback;
 	}
 
 	_getValidatorForSignDate(value) {
-		if (false === value) {
+		if (false === value || typeof value === 'undefined') {
 			return ()=>true
 		}
 
@@ -132,8 +132,6 @@ class Strategy extends passport.Strategy {
 	authenticate(req, options) {
 		options = options || {}
 
-		options.passReqToCallback = true
-
 		let instance = req && req.query && req.query.instance
 		if (!instance) {
 			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401)
@@ -145,7 +143,6 @@ class Strategy extends passport.Strategy {
 		}
 
 		if (!this._isSignDateValid(instanceObj.ext.signDate)) {
-			debug('signDate of the instance expired')
 			return this.fail({ message: options.badRequestMessage || 'Expired WIX-instance'}, 403)
 		}
 
@@ -160,12 +157,13 @@ class Strategy extends passport.Strategy {
 			self.success(user, info);
 		}
 
-		return this._tryAuthenticate(options, req, instanceObj, verifyDone)
+		return this._tryAuthenticate(req, instanceObj, verifyDone)
 	}
 
-	_tryAuthenticate(options, req, instanceObj, callback) {
+	_tryAuthenticate(req, instanceObj, callback) {
 		try {
-			if (options.passReqToCallback) {
+console.log(this._passReqToCallback);
+			if (this._passReqToCallback) {
 				return this._verify(req, instanceObj, callback)
 			} else {
 				return this._verify(instanceObj, callback)

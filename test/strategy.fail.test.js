@@ -9,6 +9,7 @@ describe('strategy.fail:', function() {
 	describe('failing authentication', function() {
 		const strategy = new Strategy({
 			secret: 'secret-key',
+			passReqToCallback: true,
 			signDateThreshold: ()=> true
 		}, function verificationCallback(_unused_req, _unused_instanceObj, done) {
 			return done(null, false)
@@ -63,6 +64,7 @@ describe('strategy.fail:', function() {
 	describe('failing authentication with info', function() {
 		const strategy = new Strategy({
 			secret: 'secret-key',
+			passReqToCallback: true,
 			signDateThreshold: ()=> true
 		}, function verificationCallback(_unused_req, _unused_instanceObj, done) {
 			return done(null, false, { message: 'authentication failed' })
