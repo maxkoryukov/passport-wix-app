@@ -33,5 +33,19 @@ script:
   - codecov
   - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
 
-# after_success:
+deploy:
+  provider: npm
+  api_key:
+    secure: "lSyCGfpZYNGkCgy8oQBZczOSZe2Bxl2JAcqjRrHiUAgDrWg/T7vTs0VvN9CBnsGrkNA50ad06hPvRjo2p55/9INR4pf4wTRvsZIm6kJ7eHlxeGkS7T+6Erf684RIvbpU4l3DhzsFIsZ8QG2H1E356T3V4IAl+mfEamBlPW4dxeOLMCR4nzQ6HXTA9NnvOq2ZssFtMaa+jvMkwsPlOFx0MCVKgc/quGf0oKSlpqukVRlpVHnxunkvbTytD4heIFv1vN7QYThA5PXBzao/2Orw3GzlrdmagQtCIiA2aAIqn/GKTBvpTLth/9S6Hcrg8joVPe2iEoOYhMF9pI0rZkH/dtj49APGKMTFzA/CqW08bWx5C3hqONCtDdVVE8EY6dgXc18lFJIzVyigeP/vSclL9tTYUqbTr6WRIt6IJzpOxKufnyUBIFljPZQYphc7r72iyPeqdtSzLn/NUidaEfCgrUZCUHRVzeHh8TIrM+/G1BQ6ozFUQew4YqRcRzZWloC7NC7YX19Kbvwdj45d9NAOK9WeqPQOF0BNuSLfiCMP7Yna86MO0qjBz37UoNni82YESRUP6wTuqdsXGbC7fuJStWYJ9v5+l6exSVDBDqCuqSE4cLFqOr8wNGnlhOwuph5oFTHDA7SwvDB2voZXWi/OhYi5AB3Z0ddw1MlWh/4UJII="
+  email: maxkoryukov@gmail.com
+  on:
+    tags: true                            # published only for tags
+    node: 4                               # published only for one NPM version
+    repo: maxkoryukov/passport-wix-app    # published only from ONE repo
+
+after_deploy:
+  # Send notification to Slack:
+  - curl -sL https://raw.githubusercontent.com/volebo/dev/master/scripts/im/slack-publish.sh | bash -s -
+
 ...
+
