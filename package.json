@@ -42,9 +42,9 @@
   "devDependencies": {
     "chai": "^3.x.x",
     "chai-passport-strategy": "x",
-    "debug": "^2.6.0",
-    "eslint": "^3.x.x",
-    "eslint-config-volebo": "^2.0.0",
+    "debug": "^2.6.3",
+    "eslint": "^3.19.0",
+    "eslint-config-volebo": "^2.1.2",
     "istanbul": "^0.4.x",
     "mocha": "^3.x"
   },

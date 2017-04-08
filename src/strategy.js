@@ -93,9 +93,9 @@ class Strategy extends passport.Strategy {
 		const data = _splitVar[1]
 
 		// sign the data using hmac-sha1-256
-		let hmac = crypto.createHmac('sha256', secret)
+		const hmac = crypto.createHmac('sha256', secret)
 
-		let myDigest = hmac.update(data).digest('base64')
+		const myDigest = hmac.update(data).digest('base64')
 		digest = this._urlBase64decode(digest, 'base64')
 
 		if (myDigest !== digest) {
@@ -132,12 +132,12 @@ class Strategy extends passport.Strategy {
 	authenticate(req, options) {
 		options = options || {}
 
-		let instance = req && req.query && req.query.instance
+		const instance = req && req.query && req.query.instance
 		if (!instance) {
 			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401)
 		}
 
-		let instanceObj = this._parseInstance(this._secret, instance);
+		const instanceObj = this._parseInstance(this._secret, instance);
 		if (!instanceObj) {
 			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403)
 		}
@@ -146,7 +146,7 @@ class Strategy extends passport.Strategy {
 			return this.fail({ message: options.badRequestMessage || 'Expired WIX-instance'}, 403)
 		}
 
-		let self = this;
+		const self = this;
 		function verifyDone(err, user, info) {
 			if (err) {
 				return self.error(err)

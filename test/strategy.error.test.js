@@ -7,7 +7,7 @@ const Strategy = require('../src/strategy')
 describe('strategy.error:', function() {
 
 	describe('encountering an error during verification', function() {
-		let strategy = new Strategy({
+		const strategy = new Strategy({
 			secret: 'secret-key',
 			passReqToCallback: true
 		},
@@ -37,14 +37,14 @@ describe('strategy.error:', function() {
 	});
 
 	describe('encountering an exception during verification', function() {
-		var strategy = new Strategy({
+		const strategy = new Strategy({
 			secret: 'secret-key',
 			signDateThreshold: ()=> true
 		}, function verificationCallback() {
 			throw new Error('something went horribly wrong');
 		});
 
-		var err;
+		let err;
 
 		before(function(done) {
 			chai.passport.use(strategy)
