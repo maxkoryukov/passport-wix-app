@@ -49,7 +49,7 @@ describe('strategy.authenticate.fail', function() {
 				const strategy = new Strategy({
 					secret: 'secret-key',
 					signDateThreshold: tc.fn
-				}, function verificationCallback(_unused_req, _unused_instanceObj, done) {
+				}, function verificationCallback(_unused_req, _unused_instanceObj, _unused_done) {
 					throw new Error('should not be called')
 				})
 
