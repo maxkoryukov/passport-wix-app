@@ -1,5 +1,5 @@
 exports = module.exports = {
-	"extends": [
+	'extends': [
 		'volebo'
 	]
 }

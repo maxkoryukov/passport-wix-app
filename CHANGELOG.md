@@ -7,6 +7,18 @@ This is the history of changes of the `hubot-vk` package
 
 ## unreleased // ???
 
+## 1.0.0 // 2017-04-09
+
+* First production-ready release
+* Documentation improved
+* Test coverage is close to 100%
+
+* `passReqToCallback` option is back
+
+### Issues
+
+* fix #3
+
 ## 0.4.2 // 2017-04-09
 
 * improve publishing settings (package design)

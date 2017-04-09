@@ -4,7 +4,7 @@ const chai = require('chai')
 const Strategy = require('../src/strategy')
 
 
-describe('strategy.error:', function() {
+describe('strategy.authenticate.error', function() {
 
 	describe('encountering an error during verification', function() {
 		const strategy = new Strategy({

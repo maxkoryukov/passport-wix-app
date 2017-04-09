@@ -1,12 +1,12 @@
 /* @flow weak */
 
-"use strict";
+'use strict'
 
 /**
  * Module dependencies.
  */
 const passport = require('passport-strategy')
-const crypto = require('crypto')
+const crypto   = require('crypto')
 
 class Strategy extends passport.Strategy {
 	/**
@@ -15,15 +15,10 @@ class Strategy extends passport.Strategy {
 	 * The authentication strategy authenticates requests based on the
 	 * `instance` query param, sent by WIX Applications
 	 *
-	 * https://dev.wix.com/docs/infrastructure/app-instance-id/
-	 * https://dev.wix.com/docs/infrastructure/app-instance/#instance-properties
+	 * @see  https://dev.wix.com/docs/infrastructure/app-instance-id/
+	 * @see  https://dev.wix.com/docs/infrastructure/app-instance/#instance-properties
 	 *
-	 * Options:
-	 *   - `secret`             xxxxxxxxxx
-	 *   - `signDateThreshold`  xxxxxxxx
-	 *
-	 * Examples:
-	 *
+	 * @example
 	 *     passport.use(new LocalStrategy({secret: 'your-wix-secret'},
 	 *       function verifyCallback(instance, done) {
 	 *         WixApp.findOne({ appId: instance.instanceId }, function (err, wixapp) {
@@ -32,8 +27,16 @@ class Strategy extends passport.Strategy {
 	 *       }
 	 *     ));
 	 *
-	 * @param {Object} options
-	 * @param {Function} verify
+	 * @param {object}   options          - Options for strategy
+	 * @param {string}   options.secret   - Your WIX-secret
+	 * @param {boolean|number|function} [options.signDateThreshold=false] -
+	 *   callback for validation of the signDate (passed by WIX).
+	 * @param {boolean}  [options.passReqToCallback=false] -
+	 *   when `true`, `req` is the first argument to the verify callback
+	 * @param {Function} verify           - Verification callback
+	 *
+	 * @returns {Strategy} Strategy instance
+	 *.
 	 * @api public
 	 */
 
@@ -50,12 +53,12 @@ class Strategy extends passport.Strategy {
 		this._secret = options.secret
 		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback') }
 
-		this._signDateDiffMax = 10000;
+		this._signDateDiffMax = 10000
 		this._isSignDateValid = this._getValidatorForSignDate(options.signDateThreshold)
 
 		this.name = 'wix-app'
 		this._verify = verify
-		this._passReqToCallback = !!options.passReqToCallback;
+		this._passReqToCallback = !!options.passReqToCallback
 	}
 
 	_getValidatorForSignDate(value) {
@@ -82,8 +85,8 @@ class Strategy extends passport.Strategy {
 		str = str
 			.replace('-', '+')
 			.replace('_', '/')
-		;
-		return new Buffer(str, 'base64').toString(encoding);
+
+		return new Buffer(str, 'base64').toString(encoding)
 	}
 
 	_parseInstance(secret, instance) {
@@ -99,7 +102,7 @@ class Strategy extends passport.Strategy {
 		digest = this._urlBase64decode(digest, 'base64')
 
 		if (myDigest !== digest) {
-			return null;
+			return null
 		}
 
 		const instanceObj = JSON.parse(this._urlBase64decode(data, 'utf8'))
@@ -120,7 +123,7 @@ class Strategy extends passport.Strategy {
 			signDate,
 		}
 
-		return instanceObj;
+		return instanceObj
 	}
 
 	/**
@@ -137,7 +140,7 @@ class Strategy extends passport.Strategy {
 			return this.fail({ message: options.badRequestMessage || 'Missing WIX-instance query-parameter' }, 401)
 		}
 
-		const instanceObj = this._parseInstance(this._secret, instance);
+		const instanceObj = this._parseInstance(this._secret, instance)
 		if (!instanceObj) {
 			return this.fail({ message: options.badRequestMessage || 'Invalid WIX-instance'}, 403)
 		}
@@ -146,15 +149,15 @@ class Strategy extends passport.Strategy {
 			return this.fail({ message: options.badRequestMessage || 'Expired WIX-instance'}, 403)
 		}
 
-		const self = this;
+		const self = this
 		function verifyDone(err, user, info) {
 			if (err) {
 				return self.error(err)
 			}
 			if (!user) {
-				return self.fail(info);
+				return self.fail(info)
 			}
-			self.success(user, info);
+			self.success(user, info)
 		}
 
 		return this._tryAuthenticate(req, instanceObj, verifyDone)
@@ -168,7 +171,7 @@ class Strategy extends passport.Strategy {
 				return this._verify(instanceObj, callback)
 			}
 		} catch (ex) {
-			return this.error(ex);
+			return this.error(ex)
 		}
 	}
 }
@@ -176,4 +179,4 @@ class Strategy extends passport.Strategy {
 /**
  * Expose `Strategy`.
  */
-module.exports = Strategy;
+module.exports = Strategy
