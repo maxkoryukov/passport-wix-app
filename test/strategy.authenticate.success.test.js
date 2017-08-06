@@ -43,17 +43,17 @@ describe('strategy.authenticate.success', function() {
 		})
 
 		it('should supply user', function() {
-			expect(user).to.be.an.object
+			expect(user).to.be.an('object')
 			expect(user.id).to.equal('1234')
 		})
 
 		it('should supply info', function() {
-			expect(info).to.be.an.object
+			expect(info).to.be.an('object')
 			expect(info.scope).to.equal('read')
 		})
 
 		it('should supply ext in instanceObj to validate', function() {
-			expect(ins).to.be.an.object
+			expect(ins).to.be.an('object')
 			expect(ins).to.have.ownProperty('instanceId')
 			expect(ins).to.have.ownProperty('signDate')
 			expect(ins).to.have.ownProperty('uid')
@@ -66,8 +66,8 @@ describe('strategy.authenticate.success', function() {
 		})
 
 		it('should pass instanceObj.ext to validate', function() {
-			expect(ext).to.be.an.object
-			expect(ext.signDate).to.be.a.date
+			expect(ext).to.be.an('object')
+			expect(ext.signDate).to.be.a('date')
 			expect(ext.port).to.equal(35734)
 			expect(ext.ip).to.equal('91.199.119.13')
 		})

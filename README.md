@@ -89,7 +89,7 @@ The available options are:
 Verification callback will be called with several params (see
 `passReqToCallback` in options-section):
 
-* `req` - **optional** incoming [Express 🌐][express]-request (will be passed if
+* `req` - **optional** incoming [Express-request 🌐][express] (will be passed if
     `passReqToCallback` option is set to `true`)
 * `instance` - parsed [Wix-Instance 🌐][wix-instance]
 * `callback` - `passport-done` function

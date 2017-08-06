@@ -67,7 +67,7 @@ describe('strategy.authenticate.fail', function() {
 			})
 
 			it('should fail with info and status', function() {
-				expect(info).to.be.an.object
+				expect(info).to.be.an('object')
 				expect(status).to.equal(403)
 				expect(info.message).to.equal('Expired WIX-instance')
 			})
@@ -118,7 +118,7 @@ describe('strategy.authenticate.fail', function() {
 		})
 
 		it('should fail with info and status', function() {
-			expect(info).to.be.an.object
+			expect(info).to.be.an('object')
 			expect(info.message).to.equal('Missing WIX-instance query-parameter')
 			expect(status).to.equal(401)
 		})
@@ -145,7 +145,7 @@ describe('strategy.authenticate.fail', function() {
 		})
 
 		it('should fail with info and status', function() {
-			expect(info).to.be.an.object
+			expect(info).to.be.an('object')
 			expect(status).to.equal(401)
 			expect(info.message).to.equal('Missing WIX-instance query-parameter')
 		})
@@ -204,7 +204,7 @@ describe('strategy.authenticate.fail', function() {
 			})
 
 			it('contains info from options', function() {
-				expect(info).to.be.an.object
+				expect(info).to.be.an('object')
 				expect(info.message).to.equal('Something is wrong with this request')
 				expect(status).to.equal(401)
 			})

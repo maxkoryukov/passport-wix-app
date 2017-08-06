@@ -29,6 +29,7 @@
   "bugs": {
     "url": "http://github.com/maxkoryukov/passport-wix-app/issues"
   },
+  "homepage": "https://maxkoryukov.github.io/passport-wix-app/",
   "license": "MIT",
   "licenses": [
     {
@@ -41,15 +42,15 @@
     "passport-strategy": "1.x.x"
   },
   "devDependencies": {
-    "chai": "^3.x.x",
+    "chai": "^4.1.1",
     "chai-passport-strategy": "x",
-    "debug": "^2.6.3",
+    "debug": "^2.6.8",
     "docdash": "^0.4.0",
-    "eslint": "^3.19.0",
-    "eslint-config-volebo": "^2.1.2",
+    "eslint": "^4.4.0",
+    "eslint-config-volebo": "^2.3.2",
     "istanbul": "^0.4.x",
     "jsdoc": "^3.5.4",
-    "mocha": "^3.x"
+    "mocha": "^3.5.0"
   },
   "engines": {
     "node": ">= 4.0.0"
