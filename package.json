@@ -1,6 +1,6 @@
 {
   "name": "passport-wix-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Wix Application authentication strategy for Passport.",
   "scripts": {
     "test": "`npm bin`/mocha",
