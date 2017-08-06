@@ -7,6 +7,8 @@ This is the history of changes of the `hubot-vk` package
 
 ## unreleased // ???
 
+* use jsdoc
+
 ## 1.0.0 // 2017-04-09
 
 * First production-ready release
