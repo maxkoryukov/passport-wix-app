@@ -12,7 +12,7 @@
 
 Wix Application authentication strategy for Passport.
 
-This module is useful for Wix Application developers. At least, it will parse `instance` parameter, used by Wix Applications ([see documentation](http://dev.wix.com/docs/infrastructure/app-instance/#))
+_Useful helper for Wix Application developers_
 
 ## Install
 
@@ -22,44 +22,111 @@ $ npm install -S passport-wix-app
 
 ## Usage
 
-#### Configure Strategy
+This module parses `instance` parameter passed by Wix Applications
+([see documentation 🌐][wix-instance])
 
-The `wix-app` authentication strategy authenticates users using a `instance` parameter, [passed by Wix](http://dev.wix.com/docs/development/widget/#endpoint-urls). The strategy requires a `verify` callback, which accepts decoded and verified `instance` object (with several useful extra fields) and calls `done` providing a user.
+Wix sends several other parameters (not only `instance`). You could get their
+values straight from the original request. Just pass `passReqToCallback: true`
+among other Strategy options.
+
+Additional request's parameters depend on Wix Application type. Read more on the
+official Wix-Dev site:
+
+* for [widget 🌐](http://dev.wix.com/docs/development/widget/#endpoint-urls)
+* for [page 🌐](http://dev.wix.com/docs/development/page/#endpoint-urls)
+
+### Configure Strategy
+
+The `wix-app` authentication strategy authenticates a user using `instance`
+parameter, [passed by Wix 🌐][wix-instance].
+
+The strategy requires `options` and  `verify` callback.
 
 ```javascript
 passport.use(new WixAppStrategy({"secret": "WIX-APP-SECRET"},
-  function(instance, done) {
+  function verifyCallback (instance, done) {
+
+    // any user-verification logic
+    // ...
+    // here is an example:
     User.findOne({
       application: instance.instanceId,
       userId: instance.uid
     }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
+      // error during verification
+      if (err) { return done(err) }
+
+      // user is not found/not authenticated
+      if (!user) { return done(null, false) }
 
       // success:
-      return done(null, user);
-    });
+      return done(null, user)
+    })
   }
-));
+))
 ```
 
-##### Available Options
+#### Options
 
-This strategy takes an optional options hash before the function, e.g. `new WixAppStrategy({/* options, */ callback})`.
+You can pass additional options to the `WixAppStrategy` constructor:
 
-The available options is:
+```js
+new WixAppStrategy(options, callback)
+```
 
-* `secret` - Optional, defaults to `null`. Defines the secret assigned to your Wix Application
+The available options are:
 
-*Note*, that you could pass `secret` later, to the `passport.authenticate()` method.
+* `passReqToCallback` - determines whether to pass the incoming request (`req`)
+    to the verify callback
+* `secret` - Optional, defaults to `null`. Defines the secret assigned to your
+    Wix Application.
+    _Note_ that you can omit `secret` on a _configuration_ step and pass
+    `secret` on request handling, when the app will call
+    `passport.authenticate()` method.
 
-#### Authenticate Requests
+#### Verification callback
+
+Verification callback will be called with several params (see
+`passReqToCallback` in options-section):
+
+* `req` - **optional** incoming [Express 🌐][express]-request (will be passed if
+    `passReqToCallback` option is set to `true`)
+* `instance` - parsed [Wix-Instance 🌐][wix-instance]
+* `callback` - `passport-done` function
+
+##### Parsed Instance
+
+Example of parsed instance (taken from
+[Wix-documentation 🌐](http://dev.wix.com/docs/infrastructure/app-instance/#json-example)
+and extended with custom fields - `ext`):
+
+```js
+parsedInstance = {
+    "instanceId":       "bf296da1-75ce-48e6-9f72-14b7148d4fa2",
+    "signDate":         "2015-12-10T06:57:37.201Z",
+    "uid":              "da32cbf7-7f8b-4f9b-a97e-e67f3072ce92",
+    "permissions":      "OWNER",
+    "ipAndPort":        "91.199.119.13/35734",
+    "vendorProductId":  null,
+    "originInstanceId": "c38e4e00-dcc1-433e-9e90-b332def7b342",
+    "siteOwnerId":      "da32cbf7-7f8b-4f9b-a97e-e67f3072ce92",
+
+    // additional params:
+    "ext": {
+        "ip":           "91.199.119.13",
+        "port":         35734,
+        "signDate":     new Date(2015, 11, 10, 06, 57, 37, 201)
+    },
+}
+```
+
+### Authenticate Requests
 
 Use `passport.authenticate()`, specifying the `'wix-app'` strategy, to authenticate requests.
 
-For example, as route middleware in an [Express](http://expressjs.com/) application:
+For example, as route middleware in an [Express 🌐][express] application:
 
-```javascript
+```js
 app.post('/login',
   passport.authenticate('wix-app', { failureRedirect: '/login' }),
   function(req, res) {
@@ -69,7 +136,7 @@ app.post('/login',
 
 Or, with late-loaded secret:
 
-```javascript
+```js
 app.post('/login',
   passport.authenticate('wix-app', {
     secret: 'secret-key',
@@ -82,8 +149,13 @@ app.post('/login',
 
 ## Credits
 
-The [passport-local](https://github.com/jaredhanson/passport-local) (by Jared Hanson) was used as a scaffold for this module.
+The [passport-local 🌐](https://github.com/jaredhanson/passport-local)
+(by Jared Hanson) was used as a scaffold for this module.
 
 ## License
 
-Please, read the [`LICENSE`](LICENSE) file in the root of the repository (or downloaded package).
+Please, read the [`LICENSE`](LICENSE) file in the root of the repository
+(or downloaded package).
+
+[wix-instance]: http://dev.wix.com/docs/infrastructure/app-instance/
+[express]: (http://expressjs.com/)

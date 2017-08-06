@@ -20,13 +20,13 @@ describe('strategy', function() {
 	it('should throw if constructed without a secret', function() {
 		expect(function() {
 			const strategy = new Strategy({}, ()=>true)  // eslint-disable-line no-unused-vars
-		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
+		}).to.throw(TypeError, 'WixAppStrategy requires the "secret" option (string)')
 	})
 
 	it('should throw if constructed without a secret (options are not passed at all)', function() {
 		expect(function() {
 			const strategy = new Strategy(()=>true)  // eslint-disable-line no-unused-vars
-		}).to.throw(TypeError, 'WixAppStrategy requires a secret')
+		}).to.throw(TypeError, 'WixAppStrategy requires the "secret" option (string)')
 	})
 
 	describe('call constructor with a wrong-typed secret', function() {
@@ -44,7 +44,7 @@ describe('strategy', function() {
 			it(msg, () => {
 				expect(function() {
 					const strategy = new Strategy({ secret: testSecret}, ()=>true)  // eslint-disable-line no-unused-vars
-				}).to.throw(TypeError, 'WixAppStrategy requires a secret. It MUST be a string')
+				}).to.throw(TypeError, 'WixAppStrategy requires the "secret" option (string)')
 			})
 		})
 	})

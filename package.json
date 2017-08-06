@@ -5,7 +5,8 @@
   "scripts": {
     "test": "`npm bin`/mocha",
     "lint": "`npm bin`/eslint ./",
-    "coverage": "`npm bin`/istanbul cover `npm bin`/_mocha -- --reporter min"
+    "coverage": "`npm bin`/istanbul cover `npm bin`/_mocha -- --reporter min",
+    "docs": "`npm bin`/jsdoc -c .jsdoc.rc"
   },
   "keywords": [
     "passport",
@@ -43,9 +44,11 @@
     "chai": "^3.x.x",
     "chai-passport-strategy": "x",
     "debug": "^2.6.3",
+    "docdash": "^0.4.0",
     "eslint": "^3.19.0",
     "eslint-config-volebo": "^2.1.2",
     "istanbul": "^0.4.x",
+    "jsdoc": "^3.5.4",
     "mocha": "^3.x"
   },
   "engines": {

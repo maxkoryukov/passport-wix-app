@@ -21,6 +21,7 @@
 /dist
 /tmp
 /build
+/docs
 
 # Coverage directory used by tools like istanbul
 /coverage
@@ -47,4 +48,5 @@ HEADER
 .gitignore
 .node-inspectorrc
 .travis.yml
+.jsdoc.rc
 gulpfile.js

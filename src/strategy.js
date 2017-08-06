@@ -2,9 +2,6 @@
 
 'use strict'
 
-/**
- * Module dependencies.
- */
 const passport = require('passport-strategy')
 const crypto   = require('crypto')
 
@@ -27,17 +24,20 @@ class Strategy extends passport.Strategy {
 	 *       }
 	 *     ));
 	 *
-	 * @param {object}   options          - Options for strategy
-	 * @param {string}   options.secret   - Your WIX-secret
-	 * @param {boolean|number|function} [options.signDateThreshold=false] -
-	 *   callback for validation of the signDate (passed by WIX).
-	 * @param {boolean}  [options.passReqToCallback=false] -
-	 *   when `true`, `req` is the first argument to the verify callback
-	 * @param {Function} verify           - Verification callback
+	 * @param {object}                  options
+	 * Options for strategy
+	 * @param {string}                  options.secret
+	 * Your WIX-secret
+	 * @param {boolean|number|function} [options.signDateThreshold=false]
+	 * callback for validation of the signDate (passed by WIX).
+	 * @param {boolean}                 [options.passReqToCallback=false]
+	 * pass Express `req` is the first argument to the verify callback when `true`
+	 * @param {Function}                verify
+	 * Verification callback
 	 *
 	 * @returns {Strategy} Strategy instance
 	 *.
-	 * @api public
+	 * @public
 	 */
 
 	constructor(options, verify) {
@@ -48,7 +48,11 @@ class Strategy extends passport.Strategy {
 			options = {}
 		}
 
-		if (typeof options.secret !== 'string') { throw new TypeError('WixAppStrategy requires a secret. It MUST be a string') }
+		if (typeof options.secret !== 'string') {
+			throw new TypeError(
+				'WixAppStrategy requires the "secret" option (string)'
+			)
+		}
 
 		this._secret = options.secret
 		if (!verify) { throw new TypeError('WixAppStrategy requires a verify callback') }
@@ -130,7 +134,7 @@ class Strategy extends passport.Strategy {
 	 * Authenticate request based on the contents of a Wix query-parameters.
 	 *
 	 * @param {Object} req
-	 * @api protected
+	 * @package
 	 */
 	authenticate(req, options) {
 		options = options || {}
