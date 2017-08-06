@@ -1,6 +1,6 @@
 'use strict'
 
-const Strategy = require('../src/strategy')
+const Strategy = require('../')
 
 
 describe('strategy', function() {

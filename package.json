@@ -37,7 +37,7 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "main": "./index",
+  "main": "./src",
   "dependencies": {
     "passport-strategy": "1.x.x"
   },

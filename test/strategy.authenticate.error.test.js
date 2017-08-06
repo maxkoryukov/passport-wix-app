@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai')
-const Strategy = require('../src/strategy')
+const Strategy = require('../').Strategy
 
 
 describe('strategy.authenticate.error', function() {

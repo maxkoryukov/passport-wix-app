@@ -18,7 +18,7 @@
 		"encoding": "utf8",
 		"destination": "./docs/",
 		"recurse": true,
-		//"tutorials": "./tutorials/articles",
+		// "tutorials": "./tutorials/articles",
 		"readme": "./README.md",
 		"package": "./package.json",		// commented, because it places doc to the /<PKG>/<VER>/folder
 		"private": true,

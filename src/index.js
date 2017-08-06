@@ -5,9 +5,9 @@
 const passport = require('passport-strategy')
 const crypto   = require('crypto')
 
-class Strategy extends passport.Strategy {
+class WixAppStrategy extends passport.Strategy {
 	/**
-	 * `Strategy` constructor.
+	 * `WixAppStrategy` constructor.
 	 *
 	 * The authentication strategy authenticates requests based on the
 	 * `instance` query param, sent by WIX Applications
@@ -35,7 +35,7 @@ class Strategy extends passport.Strategy {
 	 * @param {Function}                verify
 	 * Verification callback
 	 *
-	 * @returns {Strategy} Strategy instance
+	 * @returns {WixAppStrategy} WixAppStrategy instance
 	 *.
 	 * @public
 	 */
@@ -180,7 +180,10 @@ class Strategy extends passport.Strategy {
 	}
 }
 
-/**
- * Expose `Strategy`.
- */
-module.exports = Strategy
+// Expose `WixAppStrategy` directly from package.
+exports = module.exports = WixAppStrategy
+
+// Export constructors.
+exports.Strategy = WixAppStrategy
+exports.WixAppStrategy = WixAppStrategy
+
