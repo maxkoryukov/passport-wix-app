@@ -1,16 +1,10 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
+// Module dependencies.
 const Strategy = require('./src/strategy')
 
-/**
- * Expose `Strategy` directly from package.
- */
+// Expose `Strategy` directly from package.
 exports = module.exports = Strategy
 
-/**
- * Export constructors.
- */
+// Export constructors.
 exports.Strategy = Strategy
