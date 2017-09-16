@@ -186,4 +186,3 @@ exports = module.exports = WixAppStrategy
 // Export constructors.
 exports.Strategy = WixAppStrategy
 exports.WixAppStrategy = WixAppStrategy
-
