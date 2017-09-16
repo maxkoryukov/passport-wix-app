@@ -1,6 +1,6 @@
 # CHANGELOG
 
-This is the history of changes of the `hubot-vk` package
+This is the history of changes of the `passport-wix-app` package
 
 > This file should be filled by maintainers, using pull requests
 > Please, follow this [guide](http://keepachangelog.com/en/0.3.0/)
@@ -8,6 +8,7 @@ This is the history of changes of the `hubot-vk` package
 ## unreleased // ???
 
 * use jsdoc
+* update deps
 
 ## 1.0.0 // 2017-04-09
 
