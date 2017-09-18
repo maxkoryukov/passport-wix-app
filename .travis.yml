@@ -6,7 +6,6 @@ language: node_js
 node_js:
   - 4
   - 6
-  - 7
   - 8
 
 matrix:
@@ -31,7 +30,8 @@ script:
   - npm test
   - npm run coverage
   - codecov
-  - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
+  # it always breaks due to timeout :(
+  # - bithound check git@github.com:$TRAVIS_REPO_SLUG.git
 
 deploy:
   provider: npm
