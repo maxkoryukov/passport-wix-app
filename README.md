@@ -8,7 +8,7 @@
 [![bitHound Dependencies](https://www.bithound.io/github/maxkoryukov/passport-wix-app/badges/dependencies.svg)](https://www.bithound.io/github/maxkoryukov/passport-wix-app/master/dependencies/npm)
 [![npm downloads](https://img.shields.io/npm/dm/passport-wix-app.svg)](https://www.npmjs.com/package/passport-wix-app)
 
-[![Tips](http://img.shields.io/gittip/maxkoryukov.png)](https://www.gittip.com/maxkoryukov/)
+[![Gratipay](https://img.shields.io/gratipay/project/passport-wix-app.svg)](https://gratipay.com/passport-wix-app/)
 
 Wix Application authentication strategy for Passport.
 
